@@ -1,7 +1,8 @@
 using LinearAlgebra
 using SparseArrays
+using Arpack
 
-function tf_hamiltonian(N,g)
+function tf_hamiltonian_sparse(N,g)
     dim = (2)^N
     H = zeros(dim,dim)
     m_basis = zeros(dim)
@@ -36,5 +37,4 @@ function magn(m_basis, eigvector)
     m = abs.(m_basis)'square.(eigvector)
     return m
 end
-
 
