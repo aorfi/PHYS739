@@ -1,7 +1,7 @@
-include("TFIM.jl")
-using LaTeXStrings
+# include("TFIM.jl")
+# using LaTeXStrings
 using Arpack
-using PyPlot
+# using PyPlot
 using JLD2
 
 # len = 50
