@@ -1,6 +1,6 @@
 using LinearAlgebra
 using SparseArrays
-using PyPlot
+using Arpack
 using JLD2
 
 function tf_hamiltonian(N,g)
@@ -39,9 +39,14 @@ function magn(m_basis, eigvector)
     return m
 end
 
-len = 50
-g = range(0.01; stop=2, length=len)
-N_values = (2:12)
+
+g_beg = range(0.001; stop=0.75, length=10)
+g_fine = range(0.76,stop=1.25, length = 50)
+g_end = range(1.325; stop=2, length=10)
+g = vcat(g_beg,g_fine,g_end )
+len= length(g)
+
+N_values = (2:6)
 N_max = last(N_values)
 energy_all = zeros(length(N_values),len, 3)
 mag_all = zeros(length(N_values),len, 3)
