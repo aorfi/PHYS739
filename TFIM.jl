@@ -1,5 +1,7 @@
 using LinearAlgebra
 using SparseArrays
+using PyPlot
+using JLD2
 
 function tf_hamiltonian(N,g)
     dim = (2)^N
@@ -37,4 +39,25 @@ function magn(m_basis, eigvector)
     return m
 end
 
-
+len = 50
+g = range(0.01; stop=2, length=len)
+N_values = (2:12)
+N_max = last(N_values)
+energy_all = zeros(length(N_values),len, 3)
+mag_all = zeros(length(N_values),len, 3)
+for j in (1:length(N_values))
+    N = N_values[j]
+    println(" Working on N = ",N)
+    energy = zeros(len, 3)
+    mag = zeros(len,3)
+    for i in (1:len)
+        H, m_basis = tf_hamiltonian(N,g[i])
+        e,v  = eigs(H, nev = 3, which=:SR)
+        energy[i,1:3] = e/N
+        mag[i,1:3] = magn(m_basis, v)
+    end
+    energy_all[j,1:len,1:3] = energy 
+    mag_all[j,1:len,1:3] = mag
+    save_object("Data/energy_all", energy_all)
+    save_object("Data/mag_all", mag_all)
+end
