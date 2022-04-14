@@ -2,6 +2,7 @@ include("TFIM.jl")
 using Arpack
 using LinearAlgebra
 
+# This isn't needed
 function make_rhoA(rho,A_spins)
     dim = length(rho[1,:])
     A_size = 2^A_spins
@@ -39,7 +40,7 @@ dim = length(psi)
 A_spins = 1
 A_size = 2^A_spins
 B_size = Int(dim/A_size)
-reshaped = reshape(psi,(B_size,A_size))
+reshaped = reshape(psi,(A_size,B_size))
 # print(reshaped)
 U,s,Vt= svd(reshaped)
 lambda  = s.^2

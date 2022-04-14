@@ -46,7 +46,7 @@ g_end = range(1.325; stop=2, length=10)
 g = vcat(g_beg,g_fine,g_end )
 len= length(g)
 
-N_values = (2:6)
+N_values = (2:20)
 N_max = last(N_values)
 energy_all = zeros(length(N_values),len, 3)
 mag_all = zeros(length(N_values),len, 3)
