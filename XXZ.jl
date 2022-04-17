@@ -1,7 +1,7 @@
 using OrderedCollections
 using SparseArrays
 using Arpack
-using PyPlot
+# using PyPlot
 using JLD2
 using LsqFit
 
@@ -135,9 +135,9 @@ end
 function convert_full(N,v)
     dict = sz0_dict(N)
     positions = dict.keys
-    v_orginal = zeros(2^N)
+    v_orginal = zeros(2^N,1)
     for i in (1:length(positions))
-        v_orginal[positions[i]] = v[i]
+        v_orginal[positions[i]+1] = v[i]
     end
     return v_orginal
 end
@@ -182,8 +182,29 @@ function Hamiltonian_Prob2(N,Delta,J_perp)
         H[ket+1,ket+1] += -1 * (Diagonal)
     end
     H_sparse = H |> sparse
-    return H_sparse
+    return H_sparse,magz
 end
+
+# N = 4
+# Delta = -1
+# J_perp = -1
+# H,magz = Hamiltonian_Prob2(N,Delta,J_perp)
+# e,v  = eigs(H, nev = 1, which=:SR)
+# display(v)
+# H = XXZ_sz0(N,Delta,J_perp)
+# e,v  = eigs(H, nev = 1, which=:SR)
+# dict = sz0_dict(N)
+# positions = dict.keys
+# v_orginal = zeros(2^N,1)
+# for i in (1:length(positions))
+#     v_orginal[positions[i]+1] = v[i]
+# end
+# display(v_orginal)
+# display(v-v_orginal)
+# # v_conv = convert_full(N,v)
+# # display(v_conv )
+
+
 
 
 # Delta = -1
@@ -195,8 +216,8 @@ end
 # for j in (1:length(N_values))
 #     N = N_values[j]
 #     println(" Working on N = ",N)
-#     H = Hamiltonian_Prob2(N,Delta,J_perp)
-#     e,v  = eigs(H, nev = 2, which=:SR)
+#     H,magz = Hamiltonian_Prob2(N,Delta,J_perp)
+#     e,v  = eigs(H, nev = 1, which=:SR)
 #     energy[j] = e[1][1]/N 
 # end
 # plt.plot(N_values,energy[1:length(N_values)])

@@ -3,7 +3,7 @@ include("Entropy.jl")
 using SparseArrays
 using LinearAlgebra
 using Arpack
-using PyPlot
+# using PyPlot
 using JLD2
 using Random
 using Statistics
