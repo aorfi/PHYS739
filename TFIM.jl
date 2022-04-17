@@ -40,29 +40,29 @@ function magn(m_basis, eigvector)
 end
 
 
-g_beg = range(0.001; stop=0.75, length=10)
-g_fine = range(0.76,stop=1.25, length = 50)
-g_end = range(1.325; stop=2, length=10)
-g = vcat(g_beg,g_fine,g_end )
-len= length(g)
+# g_beg = range(0.001; stop=0.75, length=10)
+# g_fine = range(0.76,stop=1.25, length = 50)
+# g_end = range(1.325; stop=2, length=10)
+# g = vcat(g_beg,g_fine,g_end )
+# len= length(g)
 
-N_values = (2:20)
-N_max = last(N_values)
-energy_all = zeros(length(N_values),len, 3)
-mag_all = zeros(length(N_values),len, 3)
-for j in (1:length(N_values))
-    N = N_values[j]
-    println(" Working on N = ",N)
-    energy = zeros(len, 3)
-    mag = zeros(len,3)
-    for i in (1:len)
-        H, m_basis = tf_hamiltonian(N,g[i])
-        e,v  = eigs(H, nev = 3, which=:SR)
-        energy[i,1:3] = e/N
-        mag[i,1:3] = magn(m_basis, v)
-    end
-    energy_all[j,1:len,1:3] = energy 
-    mag_all[j,1:len,1:3] = mag
-    save_object("Data/energy_all", energy_all)
-    save_object("Data/mag_all", mag_all)
-end
+# N_values = (2:20)
+# N_max = last(N_values)
+# energy_all = zeros(length(N_values),len, 3)
+# mag_all = zeros(length(N_values),len, 3)
+# for j in (1:length(N_values))
+#     N = N_values[j]
+#     println(" Working on N = ",N)
+#     energy = zeros(len, 3)
+#     mag = zeros(len,3)
+#     for i in (1:len)
+#         H, m_basis = tf_hamiltonian(N,g[i])
+#         e,v  = eigs(H, nev = 3, which=:SR)
+#         energy[i,1:3] = e/N
+#         mag[i,1:3] = magn(m_basis, v)
+#     end
+#     energy_all[j,1:len,1:3] = energy 
+#     mag_all[j,1:len,1:3] = mag
+#     save_object("Data/energy_all", energy_all)
+#     save_object("Data/mag_all", mag_all)
+# end
