@@ -119,7 +119,7 @@ end
 Delta = 1
 J_perp = 1
 W = 0.5
-runs = 3
+runs = 100
 N_values = range(8,16,step = 2)
 # avg_S = zeros(length(N_values))
 # std_S = zeros(length(N_values))
