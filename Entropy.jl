@@ -46,25 +46,10 @@ end
 # end
 # save_object("Data/Q3/TFIM_g2", S_all)
 
-# # XXZ
-# N=14
-# Delta = 0
-# J_perp = 1
-# H = XXZ_sz0(N,Delta,J_perp)
-# e,v  = eigs(H, nev = 1, which=:SR)
-# v_full = convert_full(N,v)
-# x_all = range(1,N-1)
-# S_all = zeros(N-1)
-# for i in (1:length(x_all))
-#     println("Working on ",i)
-#     S_all[i] = entropy(v_full,x_all[i])
-# end
-# save_object("Data/Q3/XXY0", S_all)
-
-# # XXZ
+# XXZ
 # N=16
-# Delta = 0
-# J_perp = 1
+# Delta = 1
+# J_perp = 2
 # H = XXZ_sz0(N,Delta,J_perp)
 # e,v  = eigs(H, nev = 1, which=:SR)
 # v_full = convert_full(N,v)
@@ -74,7 +59,7 @@ end
 #     println("Working on ",i)
 #     S_all[i] = entropy(v_full,x_all[i])
 # end
-# save_object("Data/Q3/XXY0", S_all)
+# save_object("Data/Q3/XXY2", S_all)
 
 
 

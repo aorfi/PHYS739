@@ -2,6 +2,7 @@ using OrderedCollections
 using SparseArrays
 using Arpack
 # using PyPlot
+# using LaTeXStrings
 using JLD2
 using LsqFit
 
@@ -185,52 +186,12 @@ function Hamiltonian_Prob2(N,Delta,J_perp)
     return H_sparse,magz
 end
 
-# N = 4
-# Delta = -1
-# J_perp = -1
-# H,magz = Hamiltonian_Prob2(N,Delta,J_perp)
-# e,v  = eigs(H, nev = 1, which=:SR)
-# display(v)
-# H = XXZ_sz0(N,Delta,J_perp)
-# e,v  = eigs(H, nev = 1, which=:SR)
-# dict = sz0_dict(N)
-# positions = dict.keys
-# v_orginal = zeros(2^N,1)
-# for i in (1:length(positions))
-#     v_orginal[positions[i]+1] = v[i]
-# end
-# display(v_orginal)
-# display(v-v_orginal)
-# # v_conv = convert_full(N,v)
-# # display(v_conv )
 
-
-
-
-# Delta = -1
-# J_perp = -1
-# N_values = range(3,10)
-
-# #Get data
-# energy = zeros(length(N_values))
-# for j in (1:length(N_values))
-#     N = N_values[j]
-#     println(" Working on N = ",N)
-#     H,magz = Hamiltonian_Prob2(N,Delta,J_perp)
-#     e,v  = eigs(H, nev = 1, which=:SR)
-#     energy[j] = e[1][1]/N 
-# end
-# plt.plot(N_values,energy[1:length(N_values)])
-# plt.show()
-
-
-
+# Generate Data 
 
 # Delta = -1
 # J_perp = -1
 # N_values = range(2,16,step = 2)
-
-# #Get data
 # energy = zeros(length(N_values))
 # for j in (1:length(N_values))
 #     N = N_values[j]
@@ -245,23 +206,30 @@ end
 # save_object("Data/Q2/energy1", energy)
 
 
-# energy = load_object("Data/Q2/energy1")
-# # @. model(x,p) = p[1]*exp(p[2]*N_values+p[3])+p[4]
-# # p0 = [-0.1,-0.4,2.0,-0.3]
-# # fit = curve_fit(model,N_values,energy[2:length(N_values)+1],p0)
-# # param = fit.param
-# # print(param)
 
+# Fit Energy and Plot
+
+# Delta = -1
+# J_perp = -1
+# N_values = range(4,16,step = 2)
+# energy = load_object("Data/Q2/energy1")
+# @. model(x,p) = p[1]*x^p[2]+p[3]
+# p0 = [-0.1,-0.4,-0.3]
+# fit = curve_fit(model,N_values,energy[2:length(energy)],p0)
+# param = fit.param
+# sigma = stderror(fit)
+# print(param)
+# print(sigma)
 # # Energy vs N plot
 # plt.figure(figsize=(7,7))
-# plt.plot(N_values, energy[1:length(N_values)])
-# plt.scatter(N_values, energy[1:length(N_values)])
-# plt.plot(N_values, (1/4-log(2))*ones(length(N_values)), linestyle = "dashed", color= "black")
-# # plt.plot(N_values, model(N_values,param), linestyle = "dashed")
-# plt.title(L"Energy of Ground-State $\Delta = -1$, $J = -1 $")
+# x = range(4,20, length = 100)
+# plt.plot(x, (1/4-log(2))*ones(length(x)), label = L"$1/4-\log(2)$", color= "black")
+# plt.scatter(N_values, energy[2:length(energy)], label = "ED Data")
+# plt.plot(x, model(x,param), linestyle = "dashed", label = "Ploynomial Fit", color= "green")
+# plt.title(L"Energy of Ground-State $\Delta = -1$, $J_{\perp} = -1 $")
 # plt.ylabel(L"$\epsilon = E/N$")
 # plt.xlabel(L"$N$")
-
+# plt.legend()
 # plt.grid()
 # plt.savefig("Figures/Q2/energy1.png")
 # plt.show()

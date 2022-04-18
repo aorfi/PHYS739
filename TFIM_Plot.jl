@@ -79,40 +79,47 @@ end
 p0 = [2.0,0]
 xdata = 1 ./ (N_values)
 params_all = zeros(length(g_values))
-# for i in (1:length(g_values))
-#     println("Working on ", i)
-#     fit = curve_fit(model,xdata,gap_all[1:length(N_values),i,1],p0)
-#     params_all[i]= fit.param[2]
-# end
+for i in (1:length(g_values))
+    println("Working on ", i)
+    fit = curve_fit(model,xdata,gap_all[1:length(N_values),i,1],p0)
+    params_all[i]= fit.param[2]
+end
 fit = curve_fit(model,xdata,gap_all[1:length(N_values),3,1],p0)
 param = fit.param
-
+sigma = stderror(fit)
 
 # for i in (1:length(g_values))
 #     g_value = g_values[i]
 #     plt.plot(1 ./ (N_values), gap_all[1:length(N_values),i,1], label = string("g = ", g_value))
 # end
 
-plt.plot(1 ./ (N_values), gap_all[1:length(N_values),3,1])
-plt.scatter(1 ./ (N_values), gap_all[1:length(N_values),3,1])
-plt.plot(1 ./ (N_values),model(xdata,param), linestyle = "dashed", label = "Fit")
-plt.title(L"Energy Gap of Ground State at $g=1$")
-plt.ylabel(L"$|E_1-E_0|$")
-plt.xlabel(L"$1/N$")
-plt.legend()
-plt.grid()
-plt.savefig("Figures/Q1/1dGapScaling.png")
-plt.show()
-
-
-# plt.figure(figsize=(7,7))
-# plt.plot(g_values, params_all)
-# plt.scatter(g_values, params_all)
-
-# plt.title("Energy Gap of Ground State")
-# plt.ylabel("Fit y-intercept")
-# plt.xlabel(L"$h/J$")
-# # plt.legend()
+# plt.plot(1 ./ (N_values), gap_all[1:length(N_values),3,1])
+# plt.scatter(1 ./ (N_values), gap_all[1:length(N_values),3,1])
+# plt.plot(1 ./ (N_values),model(xdata,param), linestyle = "dashed", label = "Linear Fit")
+# plt.title(L"Energy Gap of Ground State at $g=1$")
+# plt.ylabel(L"$|E_1-E_0|$")
+# plt.xlabel(L"$1/N$")
+# plt.legend()
 # plt.grid()
-# plt.savefig("Figures/Q1/1dyintercept.png")
+# plt.savefig("Figures/Q1/1dGapScaling.png")
 # plt.show()
+
+
+fit = curve_fit(model,g_values,params_all,p0)
+param = fit.param
+sigma = stderror(fit)
+print(param)
+print(sigma)
+x = range(0.98,1.02,length=1000)
+plt.figure(figsize=(7,7))
+# plt.plot(g_values, params_all)
+plt.scatter(g_values, params_all)
+plt.plot(x, model(x,param), color = "green",linestyle = "dashed")
+
+plt.title("Energy Gap of Ground State")
+plt.ylabel("Fit y-intercept")
+plt.xlabel(L"$h/J$")
+# plt.legend()
+plt.grid()
+plt.savefig("Figures/Q1/1dyintercept.png")
+plt.show()

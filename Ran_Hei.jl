@@ -119,30 +119,30 @@ end
 Delta = 1
 J_perp = 1
 W = 0.5
-runs = 1000
+runs = 3
 N_values = range(8,16,step = 2)
-avg_S = zeros(length(N_values))
-std_S = zeros(length(N_values))
-for i in (1:length(N_values))
-    N = N_values[i]
-    println("Working on N: ", N)
-    S_all = zeros(runs)
-    for i in (1:runs)
-        x = Int(N/2)
-        println("Iteration number: ", i)
-        H = rand_ham_sz0(N,Delta,J_perp,W)
-        e,v  = eigs(H, nev = 1, which=:SR)
-        v_full = convert_full(N,v)
-        # e,v  = eigs(H, nev = x, which=:SR)
-        # v_ex = v[:,x]
-        # v_full = convert_full(N,v_ex)
-        S_all[i] = entropy(v_full,x)
-    end
-    avg_S[i] = mean(S_all)
-    std_S[i] = std(S_all)
-end
-save_object("Data/Q4/Sgs0.5", avg_S)
-save_object("Data/Q4/STDgs0.5", std_S)
+# avg_S = zeros(length(N_values))
+# std_S = zeros(length(N_values))
+# for i in (1:length(N_values))
+#     N = N_values[i]
+#     println("Working on N: ", N)
+#     S_all = zeros(runs)
+#     for i in (1:runs)
+#         x = Int(N/2)
+#         println("Iteration number: ", i)
+#         H = rand_ham_sz0(N,Delta,J_perp,W)
+#         e,v  = eigs(H, nev = 1, which=:SR)
+#         v_full = convert_full(N,v)
+#         # e,v  = eigs(H, nev = x, which=:SR)
+#         # v_ex = v[:,x]
+#         # v_full = convert_full(N,v_ex)
+#         S_all[i] = entropy(v_full,x)
+#     end
+#     avg_S[i] = mean(S_all)
+#     std_S[i] = std(S_all)
+# end
+# save_object("Data/Q4/Sgs0.5", avg_S)
+# save_object("Data/Q4/STDgs0.5", std_S)
 
 avg_S = zeros(length(N_values))
 std_S = zeros(length(N_values))
@@ -156,8 +156,9 @@ for i in (1:length(N_values))
         H = rand_ham_sz0(N,Delta,J_perp,W)
         # e,v  = eigs(H, nev = 1, which=:SR)
         # v_full = convert_full(N,v)
-        e,v  = eigs(H, nev = x, which=:SR)
-        v_ex = v[:,x]
+        ex_pos = trunc(Int, 0.7*length(H[1,:]))
+        e,v  = eigs(H, nev = ex_pos, which=:SR)
+        v_ex = v[:,ex_pos]
         v_full = convert_full(N,v_ex)
         S_all[i] = entropy(v_full,x)
     end
@@ -167,29 +168,29 @@ end
 save_object("Data/Q4/Ses0.5", avg_S)
 save_object("Data/Q4/STDes0.5", std_S)
 
-W = 9
-avg_S = zeros(length(N_values))
-std_S = zeros(length(N_values))
-for i in (1:length(N_values))
-    N = N_values[i]
-    println("Working on N: ", N)
-    S_all = zeros(runs)
-    for i in (1:runs)
-        x = Int(N/2)
-        println("Iteration number: ", i)
-        H = rand_ham_sz0(N,Delta,J_perp,W)
-        e,v  = eigs(H, nev = 1, which=:SR)
-        v_full = convert_full(N,v)
-        # e,v  = eigs(H, nev = x, which=:SR)
-        # v_ex = v[:,x]
-        # v_full = convert_full(N,v_ex)
-        S_all[i] = entropy(v_full,x)
-    end
-    avg_S[i] = mean(S_all)
-    std_S[i] = std(S_all)
-end
-save_object("Data/Q4/Sgs9", avg_S)
-save_object("Data/Q4/STDgs9", std_S)
+# W = 9
+# avg_S = zeros(length(N_values))
+# std_S = zeros(length(N_values))
+# for i in (1:length(N_values))
+#     N = N_values[i]
+#     println("Working on N: ", N)
+#     S_all = zeros(runs)
+#     for i in (1:runs)
+#         x = Int(N/2)
+#         println("Iteration number: ", i)
+#         H = rand_ham_sz0(N,Delta,J_perp,W)
+#         e,v  = eigs(H, nev = 1, which=:SR)
+#         v_full = convert_full(N,v)
+#         # e,v  = eigs(H, nev = x, which=:SR)
+#         # v_ex = v[:,x]
+#         # v_full = convert_full(N,v_ex)
+#         S_all[i] = entropy(v_full,x)
+#     end
+#     avg_S[i] = mean(S_all)
+#     std_S[i] = std(S_all)
+# end
+# save_object("Data/Q4/Sgs9", avg_S)
+# save_object("Data/Q4/STDgs9", std_S)
 
 avg_S = zeros(length(N_values))
 std_S = zeros(length(N_values))
@@ -203,8 +204,9 @@ for i in (1:length(N_values))
         H = rand_ham_sz0(N,Delta,J_perp,W)
         # e,v  = eigs(H, nev = 1, which=:SR)
         # v_full = convert_full(N,v)
-        e,v  = eigs(H, nev = x, which=:SR)
-        v_ex = v[:,x]
+        ex_pos = trunc(Int, 0.7*length(H[1,:]))
+        e,v  = eigs(H, nev = ex_pos, which=:SR)
+        v_ex = v[:,ex_pos]
         v_full = convert_full(N,v_ex)
         S_all[i] = entropy(v_full,x)
     end
@@ -217,16 +219,24 @@ save_object("Data/Q4/STDes9", std_S)
 
 
 
-
-# avg_S = load_object("Data/Q4/Sgs0.5")
-# std_S = load_object("Data/Q4/STDgs0.5")
+# N_values = range(8,16,step = 2)
+# avg_S = load_object("Data/Simon/Long/Sgs0.5")
+# std_S = load_object("Data/Simon/Long/STDgs0.5")
 # avg_Se = load_object("Data/Q4/Ses0.5")
 # std_Se = load_object("Data/Q4/STDes0.5")
+# avg_S9 = load_object("Data/Simon/Long/Sgs9")
+# std_S9 = load_object("Data/Simon/Long/STDgs9")
+# avg_Se9 = load_object("Data/Simon/Long/Ses9")
+# std_Se9 = load_object("Data/Simon/Long/STDes9")
 
 # plt.scatter(N_values,avg_S,label= "Ground State W=0.5")
 # plt.errorbar(N_values,avg_S, yerr = std_S)
 # plt.scatter(N_values,avg_Se,label= "Excited State W=0.5")
 # plt.errorbar(N_values,avg_Se, yerr = std_Se)
+# plt.scatter(N_values,avg_S9,label= "Ground State W=9")
+# plt.errorbar(N_values,avg_S9, yerr = std_S)
+# plt.scatter(N_values,avg_Se9,label= "Excited State W=9")
+# plt.errorbar(N_values,avg_Se9, yerr = std_Se)
 # plt.title("Average Entropy Random Heisenberg")
 # plt.ylabel(L"Average $S_A$")
 # plt.xlabel(L"$N$")
