@@ -192,6 +192,7 @@ save_object("Data/Q4/STDes0.5", std_S)
 # save_object("Data/Q4/Sgs9", avg_S)
 # save_object("Data/Q4/STDgs9", std_S)
 
+W = 9
 avg_S = zeros(length(N_values))
 std_S = zeros(length(N_values))
 for i in (1:length(N_values))
