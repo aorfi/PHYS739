@@ -3,7 +3,7 @@ include("Entropy.jl")
 using SparseArrays
 using LinearAlgebra
 using Arpack
-# using PyPlot
+using PyPlot
 using JLD2
 using Random
 using Statistics
@@ -115,12 +115,13 @@ function rand_ham_sz0(N,Delta,J_perp,W)
     return H_sparse
 end
 
+# Generate data 
 
 Delta = 1
 J_perp = 1
 W = 0.5
 runs = 100
-N_values = range(8,16,step = 2)
+N_values = range(4,12,step = 2)
 # avg_S = zeros(length(N_values))
 # std_S = zeros(length(N_values))
 # for i in (1:length(N_values))
@@ -144,29 +145,29 @@ N_values = range(8,16,step = 2)
 # save_object("Data/Q4/Sgs0.5", avg_S)
 # save_object("Data/Q4/STDgs0.5", std_S)
 
-avg_S = zeros(length(N_values))
-std_S = zeros(length(N_values))
-for i in (1:length(N_values))
-    N = N_values[i]
-    println("Working on N: ", N)
-    S_all = zeros(runs)
-    for i in (1:runs)
-        x = Int(N/2)
-        println("Iteration number: ", i)
-        H = rand_ham_sz0(N,Delta,J_perp,W)
-        # e,v  = eigs(H, nev = 1, which=:SR)
-        # v_full = convert_full(N,v)
-        ex_pos = trunc(Int, 0.7*length(H[1,:]))
-        e,v  = eigs(H, nev = ex_pos, which=:SR)
-        v_ex = v[:,ex_pos]
-        v_full = convert_full(N,v_ex)
-        S_all[i] = entropy(v_full,x)
-    end
-    avg_S[i] = mean(S_all)
-    std_S[i] = std(S_all)
-end
-save_object("Data/Q4/Ses0.5", avg_S)
-save_object("Data/Q4/STDes0.5", std_S)
+# avg_S = zeros(length(N_values))
+# std_S = zeros(length(N_values))
+# for i in (1:length(N_values))
+#     N = N_values[i]
+#     println("Working on N: ", N)
+#     S_all = zeros(runs)
+#     for i in (1:runs)
+#         x = Int(N/2)
+#         println("Iteration number: ", i)
+#         H = rand_ham_sz0(N,Delta,J_perp,W)
+#         # e,v  = eigs(H, nev = 1, which=:SR)
+#         # v_full = convert_full(N,v)
+#         ex_pos = trunc(Int, 0.5*length(H[1,:]))
+#         e,v  = eigs(H, nev = ex_pos, which=:SR)
+#         v_ex = v[:,ex_pos]
+#         v_full = convert_full(N,v_ex)
+#         S_all[i] = entropy(v_full,x)
+#     end
+#     avg_S[i] = mean(S_all)
+#     std_S[i] = std(S_all)
+# end
+# save_object("Data/Q4/S5es0.5", avg_S)
+# save_object("Data/Q4/STD5es0.5", std_S)
 
 # W = 9
 # avg_S = zeros(length(N_values))
@@ -192,58 +193,67 @@ save_object("Data/Q4/STDes0.5", std_S)
 # save_object("Data/Q4/Sgs9", avg_S)
 # save_object("Data/Q4/STDgs9", std_S)
 
-W = 9
-avg_S = zeros(length(N_values))
-std_S = zeros(length(N_values))
-for i in (1:length(N_values))
-    N = N_values[i]
-    println("Working on N: ", N)
-    S_all = zeros(runs)
-    for i in (1:runs)
-        x = Int(N/2)
-        println("Iteration number: ", i)
-        H = rand_ham_sz0(N,Delta,J_perp,W)
-        # e,v  = eigs(H, nev = 1, which=:SR)
-        # v_full = convert_full(N,v)
-        ex_pos = trunc(Int, 0.7*length(H[1,:]))
-        e,v  = eigs(H, nev = ex_pos, which=:SR)
-        v_ex = v[:,ex_pos]
-        v_full = convert_full(N,v_ex)
-        S_all[i] = entropy(v_full,x)
-    end
-    avg_S[i] = mean(S_all)
-    std_S[i] = std(S_all)
-end
-save_object("Data/Q4/Ses9", avg_S)
-save_object("Data/Q4/STDes9", std_S)
+# W = 9
+# avg_S = zeros(length(N_values))
+# std_S = zeros(length(N_values))
+# for i in (1:length(N_values))
+#     N = N_values[i]
+#     println("Working on N: ", N)
+#     S_all = zeros(runs)
+#     for i in (1:runs)
+#         x = Int(N/2)
+#         println("Iteration number: ", i)
+#         H = rand_ham_sz0(N,Delta,J_perp,W)
+#         # e,v  = eigs(H, nev = 1, which=:SR)
+#         # v_full = convert_full(N,v)
+#         ex_pos = trunc(Int, 0.5*length(H[1,:]))
+#         e,v  = eigs(H, nev = ex_pos, which=:SR)
+#         v_ex = v[:,ex_pos]
+#         v_full = convert_full(N,v_ex)
+#         S_all[i] = entropy(v_full,x)
+#     end
+#     avg_S[i] = mean(S_all)
+#     std_S[i] = std(S_all)
+# end
+# save_object("Data/Q4/S5es9", avg_S)
+# save_object("Data/Q4/STD5es9", std_S)
   
 
+## Plot
 
+N_values = range(4,12,step = 2)
+avg_S = load_object("Data/Q4/Sgs0.5")
+std_S = load_object("Data/Q4/STDgs0.5")
+avg_Se = load_object("Data/Q4/Ses0.5")
+std_Se = load_object("Data/Q4/STDes0.5")
+avg_See = load_object("Data/Q4/S5es0.5")
+std_See = load_object("Data/Q4/STD5es0.5")
+avg_S9 = load_object("Data/Q4/Sgs9")
+std_S9 = load_object("Data/Q4/STDgs9")
+avg_Se9 = load_object("Data/Q4/Ses9")
+std_Se9 = load_object("Data/Q4/STDes9")
+avg_See9 = load_object("Data/Q4/S5es9")
+std_See9 = load_object("Data/Q4/STD5es9")
 
-# N_values = range(8,16,step = 2)
-# avg_S = load_object("Data/Simon/Long/Sgs0.5")
-# std_S = load_object("Data/Simon/Long/STDgs0.5")
-# avg_Se = load_object("Data/Q4/Ses0.5")
-# std_Se = load_object("Data/Q4/STDes0.5")
-# avg_S9 = load_object("Data/Simon/Long/Sgs9")
-# std_S9 = load_object("Data/Simon/Long/STDgs9")
-# avg_Se9 = load_object("Data/Simon/Long/Ses9")
-# std_Se9 = load_object("Data/Simon/Long/STDes9")
-
-# plt.scatter(N_values,avg_S,label= "Ground State W=0.5")
-# plt.errorbar(N_values,avg_S, yerr = std_S)
-# plt.scatter(N_values,avg_Se,label= "Excited State W=0.5")
-# plt.errorbar(N_values,avg_Se, yerr = std_Se)
+plt.scatter(N_values,avg_S,label= "Ground State W=0.5")
+plt.errorbar(N_values,avg_S, yerr = std_S)
+plt.scatter(N_values,avg_Se,label= "0.7 Excited State W=0.5")
+plt.errorbar(N_values,avg_Se, yerr = std_Se)
+plt.scatter(N_values,avg_See,label= "0.5 Excited State W=0.5")
+plt.errorbar(N_values,avg_See, yerr = std_Se)
 # plt.scatter(N_values,avg_S9,label= "Ground State W=9")
 # plt.errorbar(N_values,avg_S9, yerr = std_S)
-# plt.scatter(N_values,avg_Se9,label= "Excited State W=9")
+# plt.scatter(N_values,avg_Se9,label= "0.7 Excited State W=9")
 # plt.errorbar(N_values,avg_Se9, yerr = std_Se)
-# plt.title("Average Entropy Random Heisenberg")
-# plt.ylabel(L"Average $S_A$")
-# plt.xlabel(L"$N$")
-# plt.legend()
-# plt.grid()
-# plt.show()
+# plt.scatter(N_values,avg_See9,label= "0.5 Excited State W=9")
+# plt.errorbar(N_values,avg_See9, yerr = std_Se)
+plt.title("Average Entropy Random Heisenberg")
+plt.ylabel(L"Average $S_A$")
+plt.xlabel(L"$N$")
+plt.legend()
+plt.grid()
+plt.savefig("Figures/Q4/W0.5.png")
+plt.show()
 
 
 

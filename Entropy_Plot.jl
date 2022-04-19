@@ -49,57 +49,14 @@ S_all = load_object("Data/Q3/TFIM_g1")
 # plt.savefig("Figures/Q3/Entropy_TFIM_fit.png")
 # plt.show()
 
+
+
+
 # # XXY 
-# N = 16
-# x_all = range(1,N-1)
-# S_all = load_object("Data/Q3/XXY0")
-# # Fit Entropy Model
-# @. model(x,p) = p[1]/3*log(N/pi*sin(pi*(x/N)))+p[2]
-# p0 = [0.5,0.0]
-# fit = curve_fit(model,x_all,S_all[1:length(x_all)],p0)
-# param = fit.param
-# sigma = stderror(fit)
-# println(param)
-# println(sigma)
-# plt.figure(figsize=(8,8))
-# x = range(1,N-1, length= 1000)
-# plt.scatter(x_all, S_all[1:length(x_all)], label = "ED Data")
-# plt.plot(x, model(x,param),linestyle = "dashed", label = "Functional Form Fit", color = "green")
-# plt.title(L"Entropy XY Model $N=16$", fontsize=18)
-# plt.ylabel(L"$S_A$", fontsize=14)
-# plt.xlabel(L"$x$", fontsize=14)
-# plt.legend()
-# plt.grid()
-# plt.savefig("Figures/Q3/Entropy_XY_fit.png")
-# plt.show()
-
-# XXY 
-# N = 16
-# x_all = range(1,N-1)
-# S_all = load_object("Data/Q3/XXY1")
-# # Fit Entropy Model
-# @. model(x,p) = p[1]/3*log(N/pi*sin(pi*(x/N)))+p[2]
-# p0 = [0.5,0.0]
-# fit = curve_fit(model,x_all,S_all[1:length(x_all)],p0)
-# param = fit.param
-# sigma = stderror(fit)
-# println(param)
-# println(sigma)
-# plt.figure(figsize=(8,8))
-# x = range(1,N-1, length= 1000)
-# plt.scatter(x_all, S_all[1:length(x_all)], label = "ED Data")
-# plt.plot(x, model(x,param),linestyle = "dashed", label = "Functional Form Fit", color = "green")
-# plt.title(L"Entropy Heisenberg Model $N=16$", fontsize=18)
-# plt.ylabel(L"$S_A$", fontsize=14)
-# plt.xlabel(L"$x$", fontsize=14)
-# plt.legend()
-# plt.grid()
-# plt.savefig("Figures/Q3/Entropy_Hei_fit.png")
-# plt.show()
-
+# Fitting
 N = 16
 x_all = range(1,N-1)
-S_all = load_object("Data/Q3/XXY2")
+S_all = load_object("Data/Q3/XXY0")
 # Fit Entropy Model
 @. model(x,p) = p[1]/3*log(N/pi*sin(pi*(x/N)))+p[2]
 p0 = [0.5,0.0]
@@ -108,14 +65,14 @@ param = fit.param
 sigma = stderror(fit)
 println(param)
 println(sigma)
-plt.figure(figsize=(8,8))
+# plt.figure(figsize=(8,8))
 x = range(1,N-1, length= 1000)
 plt.scatter(x_all, S_all[1:length(x_all)], label = "ED Data")
 plt.plot(x, model(x,param),linestyle = "dashed", label = "Functional Form Fit", color = "green")
-plt.title(L"Entropy XXZ Model $\Delta/J_{\perp} = 1/2 $, $N=16$", fontsize=18)
-plt.ylabel(L"$S_A$", fontsize=14)
-plt.xlabel(L"$x$", fontsize=14)
+plt.title(L"Entropy XY Model  $N=16$")
+plt.ylabel(L"$S_A$")
+plt.xlabel(L"$x$")
 plt.legend()
 plt.grid()
-plt.savefig("Figures/Q3/Entropy_off_fit.png")
+plt.savefig("Figures/Q3/Entropy_XY_fit.png")
 plt.show()

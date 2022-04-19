@@ -34,6 +34,8 @@ function entropy(v,A_spins)
 end
 
 
+# Generate Entropy Data
+
 # # TFIM 
 # N=15
 # g=2
